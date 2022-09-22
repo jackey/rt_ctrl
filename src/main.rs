@@ -14,8 +14,8 @@ struct CommandResponse{
     options: String, 
 }
 
-static mut _idx: u32 = 0; // 最近一次命令顺序
-static mut _cmd: &str = ""; // 最近一次命令
+static mut  _idx: u32 = 0; // 最近一次命令顺序
+static mut _cmd: String = String::new(); // 最近一次命令
 const api_host: &str = "http://localhost:6677/api.php";
 
 // 获取命令
@@ -39,6 +39,7 @@ async fn get_command() -> JResult<CommandResponse> {
                                 if num > _idx {
                                     let cmd_res = CommandResponse{cmd: cmd.clone(), idx: idx.clone(), options: options.clone()};
                                     _idx = num; // 把更大的idx保存
+                                    _cmd = cmd.clone();
                                     return Ok(cmd_res);
                                 }
                             }
